@@ -1,0 +1,38 @@
+pki:
+  ca: /certs/ca.crt
+  cert: /certs/lighthouse.crt
+  key: /certs/lighthouse.key
+
+lighthouse:
+  am_lighthouse: true
+
+listen:
+  host: 0.0.0.0
+  port: 4242
+
+tun:
+  dev: nebula1
+  ip: 10.1.1.1/24
+
+firewall:
+  conntrack:
+    tcp_timeout: 120h
+    udp_timeout: 3m
+    default_timeout: 10m
+    max_connections: 100000
+
+  outbound:
+    # Allow all outbound traffic from lighthouse
+    - port: any
+      proto: any
+      host: any
+
+  inbound:
+    # Allow RTSP traffic on port 8554
+    - port: 8554
+      proto: tcp
+      host: any
+    # Allow Nebula handshake and control traffic
+    - port: 4242
+      proto: udp
+      host: any

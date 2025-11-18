@@ -1,0 +1,31 @@
+networks:
+  nebula-net:
+    name: nebula-network
+    external: true
+
+services:
+  nebula-client:
+    image: nebulaoss/nebula:latest
+    container_name: nebula-client
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - ./configs:/config
+      - ./certs:/certs
+    entrypoint: /nebula -config /config/client.yml
+    networks:
+      - nebula-net
+
+  stream-receiver:
+    image: jrottenberg/ffmpeg:4.4-alpine
+    container_name: nebula-stream-receiver
+    network_mode: "container:nebula-client"
+    volumes:
+      - ./output:/output
+      - ./scripts:/scripts:ro
+    entrypoint: ["/bin/sh"]
+    command: ["/scripts/receive-stream.sh"]
+    restart: unless-stopped
+    depends_on:
+      nebula-client:
+        condition: service_started

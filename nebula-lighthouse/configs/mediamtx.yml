@@ -1,0 +1,24 @@
+# MediaMTX configuration for RTSP server
+# This server will be accessible on Nebula network at 10.1.1.1:8554
+
+# Logging
+logLevel: info
+logDestinations: [stdout]
+logFile: ""
+
+# Network settings
+# Bind to all interfaces including Nebula TUN interface
+rtspAddress: "0.0.0.0:8554"
+rtspsAddress: ":8322"
+rtmpAddress: ":1935"
+hlsAddress: ":8888"
+webrtcAddress: ":8889"
+rtspTransports: [tcp, udp]
+rtspEncryption: "no"
+
+# Paths configuration
+paths:
+  webcam:
+    source: publisher
+    disablePublisherOverride: no
+

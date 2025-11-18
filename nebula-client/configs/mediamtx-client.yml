@@ -1,0 +1,9 @@
+# MediaMTX client configuration (minimal, mainly for testing)
+logLevel: info
+logDestinations: [stdout]
+protocols: [tcp, udp]
+encryption: "no"
+rtspAddress: ":8555"  # Different port to avoid conflicts
+
+paths: {}
+

@@ -1,0 +1,31 @@
+networks:
+  nebula-net:
+    name: nebula-network
+    driver: bridge
+
+services:
+  lighthouse:
+    image: nebulaoss/nebula:latest
+    container_name: nebula-lighthouse
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - ./configs:/config
+      - ./certs:/certs
+    entrypoint: /nebula -config /config/lighthouse.yml
+    ports:
+      - "4242:4242/udp"   # IMPORTANT: Only lighthouse machine needs this
+      - "8554:8554/tcp"   # RTSP server port (exposed on host for webcam streaming)
+    networks:
+      - nebula-net
+
+  rtsp-server:
+    image: bluenviron/mediamtx:latest
+    container_name: nebula-rtsp-server
+    network_mode: "container:nebula-lighthouse"
+    volumes:
+      - ./configs/mediamtx.yml:/mediamtx.yml:ro
+    restart: unless-stopped
+    depends_on:
+      lighthouse:
+        condition: service_started
