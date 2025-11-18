@@ -1,0 +1,24 @@
+# CA Private Key - Never commit this!
+ca.key
+
+# Certificate private keys
+*.key
+
+# Generated certificates (optional - uncomment if you want to exclude all certs)
+# *.crt
+
+# Output files
+nebula-client/output/
+*.mp4
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
